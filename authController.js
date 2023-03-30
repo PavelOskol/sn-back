@@ -16,14 +16,18 @@ class AuthController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json( {errors: errors.array()} )     //Если предыдущие мидлвэеры навалидировали ошибок, отправить массив ошибок на клиент
-            const {login,name,surname,plane_password} = req.body;                              //принять тело post запроса
+            const {login,name,surname,plane_password,ava,selfDescription,location,followed} = req.body;                              //принять тело post запроса
             //if (!(login && name && surname && plane_password)) throw new Error('Не все поля заполнены')       //кастомный валидатор
             const pass_hash = bcrypt.hashSync(plane_password, 8);      //захешировать пароль в 8 раундах
             let user = new User({                                          //создать документ/модель поместив в него то что пришло в запросе
                 login,
                 pass_hash,
                 name,
-                surname
+                surname,
+                ava,
+                selfDescription,
+                location,
+                followed
             });
             user = await user.save();                                            //засейвить модель/документ/запись в бд
             res.json(user);                                                      //отчитаться на клиент
@@ -51,7 +55,9 @@ class AuthController {
     }
     async getUsers (req, res) {
         try {
-            res.send("There's the users")
+            const users = await User.find();
+            //console.log(users);
+            res.status(200).json(users);
         } catch (e) {
             console.log(e.message);
             res.send(e.message);

@@ -18,7 +18,8 @@ authRouter.post('/registration', [
 //слушаем урл, валидируем, и вызываем контроллер
 authRouter.post('/login', validators ,controller.login);
 //слушаем урл, валидируем на авторизованность, и вызываем контроллер
-authRouter.get('/users', authMiddleware, controller.getUsers);
+authRouter.get('/users',/* authMiddleware,*/ controller.getUsers);
+
 
 
 module.exports = authRouter;

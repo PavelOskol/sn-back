@@ -1,7 +1,8 @@
 const express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
-    authRouter = require('./authRouter');
+    authRouter = require('./authRouter'),
+    //cors = require('cors');           //подключение - отключения корс
 
 
 const PORT = process.env.port || 3001,
@@ -11,6 +12,7 @@ const PORT = process.env.port || 3001,
 app.use(morgan('dev'));           //логгер получаемых запросов
 app.use(express.json());                //парсинг входящих жэйсон тел запросов
 app.use('/api/auth', authRouter)        //вешаем роутер авторизации на прослушку апи авторизации
+//app.use(cors());
 
 
 const startServer = async () => {
