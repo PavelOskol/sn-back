@@ -10,13 +10,13 @@ const PORT = process.env.port || 3001,
                                         //express.use - подключение middlware'ов - пред обработчиков запросов
 app.use(morgan('dev'));           //логгер получаемых запросов
 app.use(express.json());                //парсинг входящих жэйсон тел запросов
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter)        //вешаем роутер авторизации на прослушку апи авторизации
 
 
 const startServer = async () => {
     try {
-        await mongoose.connect('mongodb+srv://backend:KYBQXQJQW07oTpVX@socnet.p7fbqzk.mongodb.net/?retryWrites=true&w=majority', {dbName});
-        app.listen(PORT, () => console.log('Server started on port ' + PORT));
+        await mongoose.connect('mongodb+srv://backend:KYBQXQJQW07oTpVX@socnet.p7fbqzk.mongodb.net/?retryWrites=true&w=majority', {dbName});     //подрубаемся к бд при помощи мангус
+        app.listen(PORT, () => console.log('Server started on port ' + PORT));              //запускаем лисенер портов
     } catch (e) {
         console.log(e.message);
     }
@@ -37,4 +37,4 @@ const startServer = async () => {
     });*/
 };
 
-startServer();
+startServer();       //стартуем сервак
