@@ -55,9 +55,12 @@ class AuthController {
     }
     async getUsers (req, res) {
         try {
-            const users = await User.find();
+            const page = req.query.page || 1;                   //пагинация, получаем номер страницы
+            const size = req.query.size || 5;                   // получаем размер страницы
+            const count = await User.find().count()             //запрашиваем к-во юзеров из бд
+            const entries = await User.find().skip((page - 1)*size).limit(size);    //запрашиваем страницу
             //console.log(users);
-            res.status(200).json(users);
+            res.status(200).json({entries, count});             //возвращаем клиенту
         } catch (e) {
             console.log(e.message);
             res.send(e.message);

@@ -1,7 +1,7 @@
 const express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
-    authRouter = require('./authRouter'),
+    authRouter = require('./authRouter');
     //cors = require('cors');           //подключение - отключения корс
 
 
