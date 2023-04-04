@@ -1,7 +1,7 @@
 const authRouter = require('express').Router();         //Создать экземпляр роутера || new Router(); для прослушки урлов
-const controller = require('./authController');          //Создать экземпляр контроллера из DAL, для обработки запросов
+const controller = require('../controllers/authController');          //Создать экземпляр контроллера из DAL, для обработки запросов
 const {check} = require('express-validator');            //метод валидации полей body входящих запросов
-const authMiddleware = require('./authMiddleware')       //кастомный валидатор напроверку авторизованности по токену
+const authMiddleware = require('../middlewares/authMiddleware')       //кастомный валидатор напроверку авторизованности по токену
 
 const validators = [
     check('login', 'Пустой логин').notEmpty(),                               //массив валидаторов
@@ -15,8 +15,12 @@ authRouter.post('/registration', [
         check('surname', 'Пустой сёрнэйм').notEmpty()
     ],
     controller.registration);
+//authRouter.delete('/delete_account', controller.deleteAccount());
 //слушаем урл, валидируем, и вызываем контроллер
 authRouter.post('/login', validators ,controller.login);
+//authRouter.post('/logout', controller.logout());
+
+
 //слушаем урл, валидируем на авторизованность, и вызываем контроллер
 authRouter.get('/users',/* authMiddleware,*/ controller.getUsers);
 

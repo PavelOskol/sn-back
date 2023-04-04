@@ -1,8 +1,8 @@
-const User = require('./userSchema');                   //подключаем кастомную модель/шаблон данных для коллекции/табилцы
+const User = require('../userSchema');                   //подключаем кастомную модель/шаблон данных для коллекции/табилцы
 const bcrypt = require('bcrypt');                       //подрубаем модуль шифрования/дешифрования паролей
 const {validationResult} = require('express-validator');//подрубаем модуль результатов валидации
 const jwt = require('jsonwebtoken');                    //модуль джейсон веб токенов
-const {secret} = require('./tokenConfig');              //подрубаем кастомный модуль секрета, для создания-верификации токенов
+const {secret} = require('../tokenConfig');              //подрубаем кастомный модуль секрета, для создания-верификации токенов
 
 const generateLoginToken = (id) => {                    //генерируем токен, зашивая в него id пользователя
     const payload = { id };
@@ -35,7 +35,10 @@ class AuthController {
             console.log(e.message);
             res.send(e.message);
         }
-    }
+    };
+    async deleteAccount (req, res) {
+
+    };
     //метод авторизации
     async login (req, res) {
         try {
@@ -52,7 +55,10 @@ class AuthController {
             console.log(e.message);
             res.send(e.message);
         }
-    }
+    };
+    async logout (req, res) {
+
+    };
     async getUsers (req, res) {
         try {
             const page = req.query.page || 1;                   //пагинация, получаем номер страницы
@@ -65,7 +71,7 @@ class AuthController {
             console.log(e.message);
             res.send(e.message);
         }
-    }
+    };
 }
 
 module.exports = new AuthController();
