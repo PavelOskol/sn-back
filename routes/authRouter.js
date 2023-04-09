@@ -10,9 +10,9 @@ const validators = [
 
 //слушаем урл, валидируем массивом валидаторов, и вызываем контроллер
 authRouter.post('/registration', [
-        ...validators,
-        check('name', 'Пустое имя').notEmpty(),
-        check('surname', 'Пустой сёрнэйм').notEmpty()
+        ...validators
+        /*check('name', 'Пустое имя').notEmpty(),
+        check('surname', 'Пустой сёрнэйм').notEmpty()*/
     ],
     controller.registration);
 //authRouter.delete('/delete_account', controller.deleteAccount());

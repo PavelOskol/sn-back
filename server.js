@@ -12,6 +12,7 @@ const PORT = process.env.port || 3001,
                                         //express.use - подключение middlware'ов - пред обработчиков запросов
 app.use(morgan('dev'));           //логгер получаемых запросов
 app.use(express.json());                //парсинг входящих жэйсон тел запросов
+//app.use(express.urlencoded());
 app.use('/api/auth', authRouter);        //вешаем роутер авторизации на прослушку апи авторизации
 app.use('/', profileRouter);
 //app.use(cors());

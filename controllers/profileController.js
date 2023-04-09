@@ -5,7 +5,7 @@ class ProfileController {
         try {
             console.log(req.params.id);
             const id = req.params.id || 1;                   //пагинация, получаем номер страницы
-            const entries = await User.findById(id,{pass_hash: 0, login: 0});    //запрашиваем страницу
+            const entries = await User.findById(id,{pass_hash: 0});    //запрашиваем страницу
             //console.log(users);
             res.status(200).json({entries});             //возвращаем клиенту
         } catch (e) {

@@ -12,8 +12,8 @@ const location = new Schema({
 const User = new Schema({
     login: { type: String, required: true, unique: true },
     pass_hash: {type: String, required: true},
-    name: {type: String, required: true},
-    surname: {type: String, required: true},
+    name: {type: String, },
+    surname: {type: String, },
     ava: {type: ava},
     selfDescription: {type: String},
     location: {type: location},
