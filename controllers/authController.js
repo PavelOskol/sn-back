@@ -7,7 +7,7 @@ const {secret} = require('../tokenConfig');              //подрубаем к
 const generateLoginToken = (id) => {                    //генерируем токен, зашивая в него id пользователя
     const payload = { id };
 
-    return jwt.sign(payload, secret, {expiresIn: "30s" });
+    return jwt.sign(payload, secret, {expiresIn: "30m" });
 }
 
 class AuthController {
