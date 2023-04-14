@@ -4,8 +4,8 @@ const {validationResult} = require('express-validator');//подрубаем м�
 const jwt = require('jsonwebtoken');                    //модуль джейсон веб токенов
 const {secret} = require('../tokenConfig');              //подрубаем кастомный модуль секрета, для создания-верификации токенов
 
-const generateLoginToken = (id) => {                    //генерируем токен, зашивая в него id пользователя
-    const payload = { id };
+const generateLoginToken = (_id) => {                    //генерируем токен, зашивая в него id пользователя
+    const payload = { _id };
 
     return jwt.sign(payload, secret, {expiresIn: "30m" });
 }
