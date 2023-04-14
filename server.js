@@ -2,7 +2,8 @@ const express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
     authRouter = require('./routes/authRouter'),
-    profileRouter = require('./routes/profileRouter');
+    profileRouter = require('./routes/profileRouter'),
+    friendRouter = require('./routes/friendRouter');
     //cors = require('cors');           //подключение - отключения корс
 
 
@@ -15,6 +16,7 @@ app.use(express.json());                //парсинг входящих жэй
 //app.use(express.urlencoded());
 app.use('/api/auth', authRouter);        //вешаем роутер авторизации на прослушку апи авторизации
 app.use('/', profileRouter);
+app.use('/',friendRouter);
 //app.use(cors());
 
 
@@ -25,21 +27,6 @@ const startServer = async () => {
     } catch (e) {
         console.log(e.message);
     }
-
-
-/*    app.route("/api/users").get((req, res) => {
-        //console.log(req.query);
-        res.send("zdarova get zapros");
-    }).post((req, res) => {
-        //console.log(req.query);
-        res.send("zdarova post zapros");
-    }).put((req, res) => {
-        //console.log(req.query);
-        res.send("zdarova put zapros");
-    }).delete((req, res) => {
-        //console.log(req.query);
-        res.send("zdarova удолятор");
-    });*/
 };
 
 startServer();       //стартуем сервак

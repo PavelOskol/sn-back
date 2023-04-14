@@ -17,7 +17,9 @@ const User = new Schema({
     ava: {type: ava},
     selfDescription: {type: String},
     location: {type: location},
-    followed: {type: Boolean},
+    friends: {type: [String]},
+    outgoing_friend_requests: {type: [String]},
+    incoming_friend_requests: {type: [String]},
 });
 //создаем и экспортируем подель Юзер на основе схемы юзер для коллекции мэйн инфо
 module.exports = model('User', User, 'main-info');

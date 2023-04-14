@@ -19,7 +19,7 @@ class AuthController {
                 return res.status(400).json( {errors: errors.array()} )
             }
 
-            const {login,name,surname,plane_password,ava,selfDescription,location,followed} = req.body;                              //принять тело post запроса
+            const {login,name,surname,plane_password,ava,selfDescription,location} = req.body;                              //принять тело post запроса
             const clone = await User.findOne({login});                                   //Проверяем есть ли уже такой юзер в бд
             if (clone)  {
                 return res.status(400).json({error: "Такой пользователь уже зарегестрирован!"})
@@ -34,7 +34,9 @@ class AuthController {
                 ava,
                 selfDescription,
                 location,
-                followed
+                friends: [],
+                outgoing_friend_requests: [],
+                incoming_friend_requests: [],
             });
             user = await user.save();                                            //засейвить модель/документ/запись в бд
             console.log(user);
