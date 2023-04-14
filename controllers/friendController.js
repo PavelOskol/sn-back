@@ -28,7 +28,10 @@ class FriendController {
                     await me.save();
                     await friend.save();
 
-                    res.status(200).json({res: "добавил в друзья"});
+                    res.status(200).json({
+                        res: "добавил в друзья",
+                        success: true
+                    });
                 } else {
                     //если от "друга" не было запроса на дружбу
                     me.outgoing_friend_requests.push(FRIEND_ID);
@@ -37,7 +40,10 @@ class FriendController {
                     await me.save();
                     await friend.save();
 
-                    res.status(200).json({res: "отправил запрос на дружбу"});
+                    res.status(200).json({
+                        res: "отправил запрос на дружбу",
+                        success: true
+                    });
                 }
 
 
@@ -59,7 +65,10 @@ class FriendController {
                     await me.save();
                     await friend.save();
 
-                    res.status(200).json({res: "удалил из друзей"});
+                    res.status(200).json({
+                        res: "удалил из друзей",
+                        success: true
+                    });
                 }
                 //если другу еще не принял запрос
                 if (me.outgoing_friend_requests.includes(FRIEND_ID) ) {
@@ -69,7 +78,10 @@ class FriendController {
                     await me.save();
                     await friend.save();
 
-                    res.status(200).json({res: "отменил заявку на дружбу"});
+                    res.status(200).json({
+                        res: "отменил заявку на дружбу",
+                        success: true
+                    });
                 }
             }
         } catch (e) {

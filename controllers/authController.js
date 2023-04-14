@@ -84,7 +84,15 @@ class AuthController {
             const page = req.query.page || 1;                   //пагинация, получаем номер страницы
             const size = req.query.size || 5;                   // получаем размер страницы
             const count = await User.find().count()             //запрашиваем к-во юзеров из бд
-            const entries = await User.find().skip((page - 1)*size).limit(size);    //запрашиваем страницу
+            const entries = await User.find({},{
+                pass_hash: 0,
+                friends: 0,
+                outgoing_friend_requests: 0,
+                incoming_friend_requests: 0,
+            })
+                .skip((page - 1)*size)
+                .limit(size);    //запрашиваем страницу
+
             //console.log(users);
             res.status(200).json({entries, count});             //возвращаем клиенту
         } catch (e) {
