@@ -6,7 +6,8 @@ class FriendController {
             const FRIEND_ID = req.body.friend_id;                   //Получаем id профиля друга из тела
             const MY_ID = req.user._id;                             //Получаем свой id из реквеста (его туда положил декодер токена)
 
-            if ( !(MY_ID && FRIEND_ID)) throw new Error('Не пришли ваш id или id друга')            //Проверяем получили ли id шники
+            if (!(MY_ID && FRIEND_ID)) throw new Error('Не пришли ваш id или id друга');            //Проверяем получили ли id шники
+            if (MY_ID === FRIEND_ID) throw new Error('Нельзя добавлять/удалять себя');              //Проверка на попытку добавить/удалить себя
 
             const friend = await User.findById(FRIEND_ID, 'friends outgoing_friend_requests incoming_friend_requests');     //запрашиваем друзей друга
             const me = await User.findById(MY_ID, 'friends outgoing_friend_requests incoming_friend_requests');             //запрашиваем моих друзей
@@ -16,7 +17,7 @@ class FriendController {
             if (req.body.addFriend) {
                 //валидаторы на случай повторного запроса
                 if (me.friends.includes(FRIEND_ID)) throw new Error('Он уже твой друг');
-                if (me.outgoing_friend_requests.includes(FRIEND_ID) ) throw new Error('Ты уже отправлял ему запрос на дружбу');
+                if (me.outgoing_friend_requests.includes(FRIEND_ID)) throw new Error('Ты уже отправлял ему запрос на дружбу');
 
                 //если от "друга" был запрос на дружбу
                 if (me.incoming_friend_requests.includes(FRIEND_ID)) {
@@ -29,6 +30,7 @@ class FriendController {
                     await friend.save();
 
                     res.status(200).json({
+                        me,
                         res: "добавил в друзья",
                         success: true
                     });
@@ -41,6 +43,7 @@ class FriendController {
                     await friend.save();
 
                     res.status(200).json({
+                        me,
                         res: "отправил запрос на дружбу",
                         success: true
                     });
@@ -53,12 +56,12 @@ class FriendController {
             //обрабатываем запрос на удаление друга
             if (req.body.deleteFriend) {
                 //валидаторы на случай попытки удаления - уже не друга
-                if ( !me.friends.includes(FRIEND_ID) && !me.outgoing_friend_requests.includes(FRIEND_ID) ) throw new Error('Уже не в друзьях, и даже не запрос на дружбу');
+                if (!me.friends.includes(FRIEND_ID) && !me.outgoing_friend_requests.includes(FRIEND_ID)) throw new Error('Уже не в друзьях, и даже не запрос на дружбу');
 
                 //если друг в друзьях
-                if ( me.friends.includes(FRIEND_ID) ) {
-                    me.friends = me.friends.filter( id => id !== FRIEND_ID);
-                    friend.friends = friend.friends.filter( id => id !== MY_ID);
+                if (me.friends.includes(FRIEND_ID)) {
+                    me.friends = me.friends.filter(id => id !== FRIEND_ID);
+                    friend.friends = friend.friends.filter(id => id !== MY_ID);
                     me.incoming_friend_requests.push(FRIEND_ID);
                     friend.outgoing_friend_requests.push(MY_ID);
 
@@ -66,24 +69,40 @@ class FriendController {
                     await friend.save();
 
                     res.status(200).json({
+                        me,
                         res: "удалил из друзей",
                         success: true
                     });
                 }
                 //если другу еще не принял запрос
-                if (me.outgoing_friend_requests.includes(FRIEND_ID) ) {
-                    me.outgoing_friend_requests = me.outgoing_friend_requests.filter( id => id !== FRIEND_ID);
-                    friend.incoming_friend_requests = friend.incoming_friend_requests.filter( id => id !== MY_ID);
+                if (me.outgoing_friend_requests.includes(FRIEND_ID)) {
+                    me.outgoing_friend_requests = me.outgoing_friend_requests.filter(id => id !== FRIEND_ID);
+                    friend.incoming_friend_requests = friend.incoming_friend_requests.filter(id => id !== MY_ID);
 
                     await me.save();
                     await friend.save();
 
                     res.status(200).json({
+                        me,
                         res: "отменил заявку на дружбу",
                         success: true
                     });
                 }
             }
+        } catch (e) {
+            console.log(e.message);
+            res.send(e.message);
+        }
+    }
+
+    async getFriends(req, res) {
+        try {
+            const MY_ID = req.user._id;
+            if (!MY_ID ) throw new Error('Не пришол ваш id');
+            const myFriends = await User.findById(MY_ID, 'friends outgoing_friend_requests incoming_friend_requests');             //запрашиваем моих друзей
+            res.status(200).json(
+                myFriends
+            );
         } catch (e) {
             console.log(e.message);
             res.send(e.message);
