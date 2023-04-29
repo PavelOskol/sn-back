@@ -15,7 +15,7 @@ app.use(morgan('dev'));           //логгер получаемых запро
 app.use(express.json());                //парсинг входящих жэйсон тел запросов
 //app.use(express.urlencoded());
 app.use('/api/auth', authRouter);        //вешаем роутер авторизации на прослушку апи авторизации
-app.use('/', profileRouter);
+app.use('/api/profile', profileRouter);
 app.use('/',friendRouter);
 //app.use(cors());
 

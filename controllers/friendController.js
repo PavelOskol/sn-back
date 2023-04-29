@@ -98,7 +98,7 @@ class FriendController {
     async getFriends(req, res) {
         try {
             const MY_ID = req.user._id;
-            if (!MY_ID ) throw new Error('Не пришол ваш id');
+            if (!MY_ID ) throw new Error('Не пришёл ваш id');
             const myFriends = await User.findById(MY_ID, 'friends outgoing_friend_requests incoming_friend_requests');             //запрашиваем моих друзей
             res.status(200).json(
                 myFriends

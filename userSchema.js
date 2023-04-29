@@ -20,6 +20,7 @@ const User = new Schema({
     friends: {type: [String]},
     outgoing_friend_requests: {type: [String]},
     incoming_friend_requests: {type: [String]},
+    status: {type: String}
 });
 //создаем и экспортируем подель Юзер на основе схемы юзер для коллекции мэйн инфо
 module.exports = model('User', User, 'main-info');

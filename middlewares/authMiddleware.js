@@ -12,8 +12,9 @@ module.exports = function (req, res, next) {
         const token = req.headers.authorization.split(' ')[1];          //достаем из заголовка, поле авторизация, второе слово оно же токен
         if (!token) return res.status(403).json({error: "Вы не авторизованы"}); //если токена нет завершаем, отправляем
         const decode = jwt.verify(token, secret);                       //декодируем id из токена - секретом
-        console.log(decode);
-        req.user = decode;                                              //добавляем к запросу поле юзер {id: iat: exp:}
+        req.user = {
+            _id: decode._id
+        };                                              //добавляем к запросу поле юзер {id: iat: exp:}
         next();                                                         //вызываем следующий мидлвэер
     } catch (e) {
         return res.status(403).json({error: "Вы не авторизованы"});
